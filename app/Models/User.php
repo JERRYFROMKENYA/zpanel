@@ -18,6 +18,7 @@ class User extends Authenticatable
         'height',
         'relation_goal_id',
         'status',
+        'remeber_token',
     ];
 }
 
