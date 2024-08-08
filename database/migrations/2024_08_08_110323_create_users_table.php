@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('gender')->nullable();
+            $table->string('remember_token')->nullable();
             $table->date('dob')->nullable();
             $table->integer('height')->nullable();
             $table->unsignedBigInteger('relation_goal_id')->nullable();
