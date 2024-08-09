@@ -17,16 +17,16 @@ class UserReportResource extends Resource
 {
     protected static ?string $model = UserReport::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-exclamation-triangle';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('reporting_user_id')
+                Forms\Components\TextInput::make('reporting_user_id')->name("Reporting User ID")
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('reported_user_id')
+                Forms\Components\TextInput::make('reported_user_id')->name("Reported User ID")
                     ->required()
                     ->numeric(),
                 Forms\Components\Textarea::make('reason')
@@ -44,10 +44,10 @@ class UserReportResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('reporting_user_id')
+                Tables\Columns\TextColumn::make('reporting_user_id')->name("Reporting User ID")
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('reported_user_id')
+                Tables\Columns\TextColumn::make('reported_user_id')->name("Reported User ID")
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')

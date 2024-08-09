@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SubscriptionPlanResource\Pages;
-use App\Filament\Resources\SubscriptionPlanResource\RelationManagers;
-use App\Models\SubscriptionPlan;
+use App\Filament\Resources\ReligionResource\Pages;
+use App\Filament\Resources\ReligionResource\RelationManagers;
+use App\Models\Religion;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,39 +13,23 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class SubscriptionPlanResource extends Resource
+class ReligionResource extends Resource
 {
-    protected static ?string $model = SubscriptionPlan::class;
+    protected static ?string $model = Religion::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-globe-americas';
+    protected static ?string $navigationIcon = 'heroicon-o-home-modern';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\Textarea::make('title')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->numeric()
-                    ->prefix('$'),
-                Forms\Components\TextInput::make('day')
+                Forms\Components\TextInput::make('status')
                     ->required()
                     ->numeric(),
-                Forms\Components\Radio::make('status')
-                    ->required()
-                    ->options([
-                        1 => 'Active',
-                        0 => 'Inactive',
-                    ]),
-                Forms\Components\TextInput::make('type')
-                    ->required()
-                    ->maxLength(255),
             ]);
     }
 
@@ -54,18 +38,11 @@ class SubscriptionPlanResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->money()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('day')
-                    ->numeric()
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -99,10 +76,10 @@ class SubscriptionPlanResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSubscriptionPlans::route('/'),
-            'create' => Pages\CreateSubscriptionPlan::route('/create'),
-            'view' => Pages\ViewSubscriptionPlan::route('/{record}'),
-            'edit' => Pages\EditSubscriptionPlan::route('/{record}/edit'),
+            'index' => Pages\ListReligions::route('/'),
+            'create' => Pages\CreateReligion::route('/create'),
+            'view' => Pages\ViewReligion::route('/{record}'),
+            'edit' => Pages\EditReligion::route('/{record}/edit'),
         ];
     }
 }

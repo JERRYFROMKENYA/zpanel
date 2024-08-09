@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class FAQ extends Model
 {
     use HasFactory;
+
+    protected $table = 'tbl_faq';
+
+    protected $fillable = [
+        'question',
+        'answer',
+        'status',
+    ];
 }

@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Language extends Model
 {
     use HasFactory;
+
+    protected $table = 'tbl_language';
+
+    protected $fillable = [
+        'img',
+        'title',
+        'status',
+    ];
 }

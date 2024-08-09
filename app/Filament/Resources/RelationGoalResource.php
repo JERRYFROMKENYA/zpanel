@@ -17,7 +17,7 @@ class RelationGoalResource extends Resource
 {
     protected static ?string $model = RelationGoal::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-check';
 
     public static function form(Form $form): Form
     {

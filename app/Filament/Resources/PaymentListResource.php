@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SubscriptionPlanResource\Pages;
-use App\Filament\Resources\SubscriptionPlanResource\RelationManagers;
-use App\Models\SubscriptionPlan;
+use App\Filament\Resources\PaymentListResource\Pages;
+use App\Filament\Resources\PaymentListResource\RelationManagers;
+use App\Models\PaymentList;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,39 +13,43 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class SubscriptionPlanResource extends Resource
+class PaymentListResource extends Resource
 {
-    protected static ?string $model = SubscriptionPlan::class;
+    protected static ?string $model = PaymentList::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-globe-americas';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\Textarea::make('title')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('price')
+                Forms\Components\Textarea::make('img')
                     ->required()
-                    ->numeric()
-                    ->prefix('$'),
-                Forms\Components\TextInput::make('day')
+                    ->maxLength(65535)
+                    ->columnSpanFull(),
+                Forms\Components\Textarea::make('attributes')
                     ->required()
-                    ->numeric(),
+                    ->maxLength(65535)
+                    ->columnSpanFull(),
                 Forms\Components\Radio::make('status')
                     ->required()
                     ->options([
                         1 => 'Active',
                         0 => 'Inactive',
                     ]),
-                Forms\Components\TextInput::make('type')
+                Forms\Components\Textarea::make('subtitle')
+                    ->maxLength(65535)
+                    ->columnSpanFull(),
+                Forms\Components\Radio::make('p_show')->name("Show on Wallet?")
                     ->required()
-                    ->maxLength(255),
+                    ->options([
+                        1 => 'Yes',
+                        0 => 'No',
+                    ]),
             ]);
     }
 
@@ -54,18 +58,23 @@ class SubscriptionPlanResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->money()
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('day')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('img')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('attributes')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('subtitle')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('p_show')->name("Show On Wallet?")
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -99,10 +108,10 @@ class SubscriptionPlanResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSubscriptionPlans::route('/'),
-            'create' => Pages\CreateSubscriptionPlan::route('/create'),
-            'view' => Pages\ViewSubscriptionPlan::route('/{record}'),
-            'edit' => Pages\EditSubscriptionPlan::route('/{record}/edit'),
+            'index' => Pages\ListPaymentLists::route('/'),
+            'create' => Pages\CreatePaymentList::route('/create'),
+            'view' => Pages\ViewPaymentList::route('/{record}'),
+            'edit' => Pages\EditPaymentList::route('/{record}/edit'),
         ];
     }
 }

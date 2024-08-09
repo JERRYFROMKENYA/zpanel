@@ -9,11 +9,11 @@ class Interest extends Model
 {
     use HasFactory;
 
-    protected $table = 'tbl_faq';
+    protected $table = 'tbl_interest';
 
     protected $fillable = [
-        'question',
-        'answer',
+        'img',
+        'title',
         'status',
     ];
 }

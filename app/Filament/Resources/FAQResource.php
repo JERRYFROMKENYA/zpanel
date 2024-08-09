@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SubscriptionPlanResource\Pages;
-use App\Filament\Resources\SubscriptionPlanResource\RelationManagers;
-use App\Models\SubscriptionPlan;
+use App\Filament\Resources\FAQResource\Pages;
+use App\Filament\Resources\FAQResource\RelationManagers;
+use App\Models\FAQ;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,39 +13,28 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class SubscriptionPlanResource extends Resource
+class FAQResource extends Resource
 {
-    protected static ?string $model = SubscriptionPlan::class;
+    protected static ?string $model = FAQ::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-globe-americas';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                Forms\Components\Textarea::make('question')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('price')
+                Forms\Components\Textarea::make('answer')
                     ->required()
-                    ->numeric()
-                    ->prefix('$'),
-                Forms\Components\TextInput::make('day')
+                    ->maxLength(65535)
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('status')
                     ->required()
                     ->numeric(),
-                Forms\Components\Radio::make('status')
-                    ->required()
-                    ->options([
-                        1 => 'Active',
-                        0 => 'Inactive',
-                    ]),
-                Forms\Components\TextInput::make('type')
-                    ->required()
-                    ->maxLength(255),
             ]);
     }
 
@@ -53,19 +42,15 @@ class SubscriptionPlanResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->money()
+                Tables\Columns\TextColumn::make('question')
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('day')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('answer')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -99,10 +84,10 @@ class SubscriptionPlanResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSubscriptionPlans::route('/'),
-            'create' => Pages\CreateSubscriptionPlan::route('/create'),
-            'view' => Pages\ViewSubscriptionPlan::route('/{record}'),
-            'edit' => Pages\EditSubscriptionPlan::route('/{record}/edit'),
+            'index' => Pages\ListFAQS::route('/'),
+            'create' => Pages\CreateFAQ::route('/create'),
+            'view' => Pages\ViewFAQ::route('/{record}'),
+            'edit' => Pages\EditFAQ::route('/{record}/edit'),
         ];
     }
 }
